@@ -25,7 +25,6 @@ def prepared_chromecast(friendly_name: str, all_devices: List[Chromecast]) -> Co
     cast: Chromecast = next(cc for cc in [d for d in all_devices if d.device.friendly_name == friendly_name])
     cast.wait()
 
-
     yield cast
 
     for cc in all_devices:
