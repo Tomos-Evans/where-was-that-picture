@@ -17,7 +17,7 @@ def get_next_image(config: Config) -> Tuple[str, str]:
 
 def display_next_image(chromecast: Chromecast, config: Config):
     """
-
+    TODO: Documentation
     """
     location, image = get_next_image(config)
     chromecast.media_controller.play_media(image, "image/jpeg")
