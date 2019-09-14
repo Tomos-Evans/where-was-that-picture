@@ -1,0 +1,8 @@
+version: "3"
+services:
+  wwtp:
+    image: "tomosevans/where-was-that-picture"
+    network_mode: "host"
+    volumes:
+      - "./config.json:/wwtp/config.json"
+
