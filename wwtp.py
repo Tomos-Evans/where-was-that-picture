@@ -19,5 +19,5 @@ if __name__ == "__main__":
     config: Config = Config.from_json(args.config_path)
 
     with prepared_chromecast(config.device_name, find_all_chromecasts()) as chromecast:
-        for _ in range(10):
+        for _ in range(4):
             wwtp.display_next_image(chromecast, config)

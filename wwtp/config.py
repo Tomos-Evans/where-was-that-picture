@@ -3,31 +3,24 @@ Config management
 """
 import json
 import jsonschema
-from typing import NamedTuple, List
-from wwtp.images import ImageCollection, image_collection_schema
+from typing import NamedTuple
 
 config_schema: dict = {
   "type": "object",
-  "required": ["device_name", "seconds_per_image", "image_collections"],
+  "required": ["device_name", "seconds_per_image", "server_ip_address"],
   "additionalProperties": False,
   "properties": {
     "device_name": {"type": "string"},
     "seconds_per_image": {"type": "integer", "minimum": 5, "maximum": 360},
-    "image_collections": {
-      "type": "array",
-      "items": {"$ref":  "#/definitions/image_collection", "minItems": 1},
-    }
+    "server_ip_address": {"type": "string"}
   },
-  "definitions": {
-    "image_collection": image_collection_schema
-  }
 }
 
 
 class Config(NamedTuple):
     device_name: str
-    image_collections: List[ImageCollection]
     seconds_per_image: int
+    server_ip_address: str
 
     @classmethod
     def from_json(cls, config_file_path: str) -> 'Config':
@@ -39,7 +32,7 @@ class Config(NamedTuple):
         jsonschema.validate(config, config_schema)
 
         return Config(device_name=config["device_name"],
-                      image_collections=[ImageCollection.from_json(c) for c in config.get("image_collections")],
-                      seconds_per_image=config.get("seconds_per_image"))
+                      seconds_per_image=config.get("seconds_per_image"),
+                      server_ip_address=config.get("server_ip_address"))
 
 

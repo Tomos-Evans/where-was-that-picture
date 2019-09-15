@@ -1,8 +1,25 @@
 version: "3"
 services:
+
+  # The Where was that picture service. Your config file and images will me mounted into the running container.
+  # The container requires host networking so that the PyChromecast package can successfully find devices.
+  # This service will not be started until after the photo-server service as it is required for wwtp's operation.
   wwtp:
     image: "tomosevans/where-was-that-picture"
     network_mode: "host"
     volumes:
       - "./config.json:/wwtp/config.json"
+      - "./images:/images"
+    depends_on:
+      - photo-server
 
+  # This services provides a very simple file server. Your images will be available on the local network, which is how
+  # the Chromecast is able to display them. Rather than re-invent the wheel I am using the very popular
+  # "static-file-server" by halverneus, available on Dockerhub.
+  photo-server:
+    environment:
+      - PORT=16916
+    image: "halverneus/static-file-server"
+    network_mode: "host"
+    volumes:
+      - "./images:/web"

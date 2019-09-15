@@ -1,24 +1,16 @@
+import os
 import random
 import time
-from typing import Tuple
 from pychromecast import Chromecast
 from wwtp.config import Config
-from wwtp.images import ImageCollection
-
-
-def get_next_image(config: Config) -> Tuple[str, str]:
-    """
-    Returns the URL of a random image from a random ImageCollection
-    """
-    image_collection: ImageCollection = random.sample(config.image_collections, 1)[0]
-    image: str = random.sample(image_collection.images, 1)[0]
-    return image_collection.location, image
 
 
 def display_next_image(chromecast: Chromecast, config: Config):
     """
-    TODO: Documentation
+    Finds a random picture from a random location and displays it on the Chromecast.
     """
-    location, image = get_next_image(config)
-    chromecast.media_controller.play_media(image, "image/jpeg")
+    location: str = random.sample(os.listdir("/images/"), 1)[0]
+    image: str = random.sample(os.listdir(f"/images/{location}"), 1)[0]
+    image_url: str = f"http://{config.server_ip_address}:16916/{location}/{image}"
+    chromecast.media_controller.play_media(image_url, "image/jpeg")
     time.sleep(config.seconds_per_image)
