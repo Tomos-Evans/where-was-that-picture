@@ -5,7 +5,7 @@ chardet==3.0.4
 idna==2.8
 ifaddr==0.1.6
 jsonschema==3.0.2
-protobuf==3.9.1
+protobuf==3.18.3
 PyChromecast==4.0.1
 pyrsistent==0.15.4
 requests==2.22.0
